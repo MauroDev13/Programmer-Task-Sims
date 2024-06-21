@@ -17,6 +17,7 @@ public class MovementController : MonoBehaviour
     public float maxVelocityChange = 5;
     [Range(0, 1f)] public float smoothTime = 0.1f;
 
+
     [Header("Events")]
     public UnityEvent<Vector2> OnMovementEvent = new UnityEvent<Vector2>();
 
@@ -29,11 +30,12 @@ public class MovementController : MonoBehaviour
     private Vector2 m_inputDirection;
     private Vector2 m_smoothDirection, m_smoothVelocity;
     private Vector2 m_velocity;
-    
+    private Animator m_animator;
 
     private void Awake()
     {
         m_body = GetComponent<Rigidbody2D>();
+        m_animator = GetComponentInChildren<Animator>();
     }
 
     private void FixedUpdate()
@@ -69,6 +71,7 @@ public class MovementController : MonoBehaviour
         m_velocity = new Vector2(accelx, accely);
         m_body.AddForce(m_velocity, ForceMode2D.Force);
 
+        
     }
 
     private void OnMovement(InputValue value)
@@ -78,4 +81,10 @@ public class MovementController : MonoBehaviour
         OnMovementEvent.Invoke(m_inputDirection);
     }
 
+    private void Update()
+    {
+        m_animator.SetBool("isMoving", isMoving);
+        m_animator.SetFloat("Horizontal", direction.x);
+        m_animator.SetFloat("Vertical", direction.y);
+    }
 }
