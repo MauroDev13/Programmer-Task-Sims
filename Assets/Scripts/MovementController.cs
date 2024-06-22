@@ -32,6 +32,9 @@ public class MovementController : MonoBehaviour
     private Vector2 m_velocity;
     private Animator m_animator;
 
+    [SerializeField]
+    private GameObject m_inventory;
+
     private void Awake()
     {
         m_body = GetComponent<Rigidbody2D>();
@@ -86,5 +89,18 @@ public class MovementController : MonoBehaviour
         m_animator.SetBool("isMoving", isMoving);
         m_animator.SetFloat("Horizontal", direction.x);
         m_animator.SetFloat("Vertical", direction.y);
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (!m_inventory.active)
+            {
+                m_inventory.SetActive(true);
+            }
+        else
+            {
+                m_inventory.SetActive(false);
+            }
+        }
     }
+   
 }
